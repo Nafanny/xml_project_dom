@@ -25,17 +25,43 @@ public class Main {
         }
 
         Node companyNode = doc.getFirstChild();
-            System.out.println("First teg " + companyNode.getNodeName());
+//            System.out.println("First teg " + companyNode.getNodeName());
 
-        Node staffNode = null;
-
+            ArrayList<Staff> staffList = new ArrayList<>();
+        String name = null, salary = null, role = null, bio = null;
         NodeList companyChilds = companyNode.getChildNodes();
         for (int i = 0; i < companyChilds.getLength(); i++) {
             if (companyChilds.item(i).getNodeType() != Node.ELEMENT_NODE){
                 continue;
             }
-            System.out.println("List teg " + companyChilds.item(i).getNodeName());
+//            System.out.println("List teg " + companyChilds.item(i).getNodeName());
+
+            NodeList staffChilds = companyChilds.item(i).getChildNodes();
+            for (int j = 0; j < staffChilds.getLength(); j++) {
+                if (staffChilds.item(j).getNodeType() != Node.ELEMENT_NODE) {
+                    continue;
+                }
+//                System.out.println("Data staff " + staffChilds.item(j).getNodeName());
+                switch (staffChilds.item(j).getNodeName()) {
+                    case "name": {
+                        name = staffChilds.item(j).getTextContent();
+                    } break;
+                    case "salary": {
+                        salary = staffChilds.item(j).getTextContent();
+                    } break;
+                    case "role": {
+                        role = staffChilds.item(j).getTextContent();
+                    } break;
+                    case "bio": {
+                        bio = staffChilds.item(j).getTextContent();
+                    } break;
+                }
+            }
+            Staff staff = new Staff(name, salary, role, bio);
+            staffList.add(staff);
         }
+        company.setStaff(staffList);
+        System.out.println(company.toString());
     }
     private static Document buildDocument() throws Exception {
         File file = new File("test.xml");

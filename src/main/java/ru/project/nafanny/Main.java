@@ -4,35 +4,44 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import ru.project.nafanny.model.Company;
+import ru.project.nafanny.model.Staff;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
         Company company = new Company();
 
-        File file = new File("test.xml");
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document doc = null;
+        Document doc;
         try {
-            doc = dbf.newDocumentBuilder().parse(file);
+            doc = buildDocument();
         } catch (Exception e) {
-        System.out.println("Open parsing error " + e.toString());
-        return;
+            System.out.println("Open parsing error " + e.toString());
+            return;
         }
 
         Node companyNode = doc.getFirstChild();
-//        System.out.println("DOM " + companyChild.getNodeName());
+            System.out.println("First teg " + companyNode.getNodeName());
+
+        Node staffNode = null;
 
         NodeList companyChilds = companyNode.getChildNodes();
         for (int i = 0; i < companyChilds.getLength(); i++) {
             if (companyChilds.item(i).getNodeType() != Node.ELEMENT_NODE){
                 continue;
             }
-            System.out.println("AAA " + companyChilds.item(i).getNodeName());
+            System.out.println("List teg " + companyChilds.item(i).getNodeName());
         }
-
-//        System.out.println(company.toString());
+    }
+    private static Document buildDocument() throws Exception {
+        File file = new File("test.xml");
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        Document doc = null;
+        return doc = dbf.newDocumentBuilder().parse(file);
     }
 }
+
